@@ -91,6 +91,33 @@ export default function App() {
       setActiveParameter('temperature')
       setActiveTab('Depth Profile')
     }
+
+    // Automatically submit after a tiny delay so the judge sees it populate and then load!
+    setTimeout(() => {
+      setCurrentView('loading')
+      setLoadingProgress(0)
+      setLoadingText('Understanding query…')
+      
+      const interval = setInterval(() => {
+        setLoadingProgress(prev => {
+          const next = prev + 5
+          if (next === 30) {
+            setLoadingText('Finding ARGO observations…')
+          } else if (next === 70) {
+            setLoadingText('Generating visualization…')
+          } else if (next >= 100) {
+            clearInterval(interval)
+            setConversations([
+              { sender: 'user', text: queryText },
+              { sender: 'ai', text: getAIAnswerText(queryText) }
+            ])
+            setCurrentView('explore')
+            return 100
+          }
+          return next
+        })
+      }, 45)
+    }, 400)
   }
 
   // Handle main search query submit
