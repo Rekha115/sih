@@ -534,7 +534,7 @@ export default function App() {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-navy-50 dark:divide-navy-800/40 text-navy-600 dark:text-navy-300">
-                              {activeFloatsList.slice(0, 4).map((float) => (
+                              {argoService.getFloatObservations('Arabian Sea', 'temperature').slice(0, 4).map((float) => (
                                 <tr key={float.id} className="hover:bg-navy-50 dark:hover:bg-navy-800/20 transition duration-150">
                                   <td className="py-3 font-mono font-bold text-cyan-600 dark:text-cyan-400">{float.id}</td>
                                   <td>{float.lat}°N, {float.lng}°E</td>
@@ -569,13 +569,13 @@ export default function App() {
                             <line x1="0" y1="140" x2="400" y2="140" stroke="currentColor" className="text-navy-200 dark:text-navy-800" strokeWidth="0.3" strokeDasharray="3,3" />
                             <path d="M 230 40 L 230 80 Q 235 110 260 130 Q 275 145 285 170 L 290 180" fill="none" stroke="currentColor" className="text-navy-400 dark:text-navy-600" strokeWidth="1.5" />
                             <ellipse cx="295" cy="190" rx="6" ry="9" fill="currentColor" className="text-navy-100 dark:text-navy-950" stroke="currentColor" strokeWidth="1" />
-                            {activeFloatsList.map((float, idx) => (
+                            {argoService.getFloatObservations('Arabian Sea', 'temperature').map((float, idx) => (
                               <circle
                                 key={idx}
                                 cx={100 + (float.lng - 60) * 10}
                                 cy={180 - (float.lat - 10) * 10}
-                                r={float.isAnomaly ? "3" : "2"}
-                                fill={float.isAnomaly ? "#f97316" : "#06b6d4"}
+                                r={float.lat === 18.42 || float.lat === 15.45 ? "3" : "2"}
+                                fill={float.lat === 18.42 || float.lat === 15.45 ? "#f97316" : "#06b6d4"}
                               />
                             ))}
                           </svg>
