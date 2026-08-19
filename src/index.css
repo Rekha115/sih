@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+/* Enable class-based dark mode in Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Outfit', 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Premium Ocean Palette */
+  --color-ocean-50: #f0f7ff;
+  --color-ocean-100: #e0effe;
+  --color-ocean-200: #bae0fd;
+  --color-ocean-300: #7cc3fc;
+  --color-ocean-400: #38a5f8;
+  --color-ocean-500: #0ea5e9;
+  --color-ocean-600: #0284c7;
+  --color-ocean-700: #0369a1;
+  --color-ocean-800: #075985;
+  --color-ocean-900: #0c4a6e;
+  --color-ocean-950: #021a2b;
+
+  --color-navy-50: #f4f6fa;
+  --color-navy-100: #eaedf4;
+  --color-navy-200: #ccd3e5;
+  --color-navy-300: #a0aed0;
+  --color-navy-400: #6d80b4;
+  --color-navy-500: #495e99;
+  --color-navy-600: #36487e;
+  --color-navy-700: #2c3966;
+  --color-navy-800: #1c2541; /* Deep navy */
+  --color-navy-900: #0b132b; /* Dark navy */
+  --color-navy-950: #050814; /* Deepest ocean black-navy */
+
+  --color-cyan-glow: rgba(0, 180, 216, 0.15);
+  --color-purple-glow: rgba(123, 44, 191, 0.15);
+}
+
+:root {
+  font-family: var(--font-sans);
+  color-scheme: dark light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.4);
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+  content: '';
+}
+
+/* Light / Dark Mode theme base transition */
+html {
+  transition: background-color 0.3s;
+}
