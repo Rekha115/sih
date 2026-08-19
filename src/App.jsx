@@ -101,14 +101,14 @@ export default function App() {
     // Trigger loading view
     setCurrentView('loading')
     setLoadingProgress(0)
-    setLoadingText('Understanding your ocean query…')
+    setLoadingText('Understanding query…')
 
     // Simulate transition
     const interval = setInterval(() => {
       setLoadingProgress(prev => {
         const next = prev + 5
         if (next === 30) {
-          setLoadingText('Finding relevant ARGO observations…')
+          setLoadingText('Finding ARGO observations…')
         } else if (next === 70) {
           setLoadingText('Generating visualization…')
         } else if (next >= 100) {
@@ -197,7 +197,7 @@ export default function App() {
         </div>
 
         {/* Minimal Navigation */}
-        <div className="flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
+        <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider">
           <button 
             onClick={() => { setCurrentView('home'); setSearchQuery(''); }} 
             className={`transition ${currentView === 'home' ? 'text-cyan-500' : 'text-navy-500 dark:text-navy-450 hover:text-navy-800'}`}
@@ -206,17 +206,24 @@ export default function App() {
           </button>
           <button 
             onClick={() => { setCurrentView('explore'); }} 
-            className={`transition ${currentView === 'explore' ? 'text-cyan-500' : 'text-navy-500 dark:text-navy-450 hover:text-navy-800'}`}
+            className={`transition ${currentView === 'explore' ? 'text-cyan-500' : 'text-navy-500 dark:text-navy-450 hover:text-navy-805'}`}
           >
             Explore
           </button>
           <button 
             onClick={() => { setCurrentView('about'); }} 
-            className={`transition ${currentView === 'about' ? 'text-cyan-500' : 'text-navy-500 dark:text-navy-450 hover:text-navy-800'}`}
+            className={`transition ${currentView === 'about' ? 'text-cyan-500' : 'text-navy-550 dark:text-navy-450 hover:text-navy-805'}`}
           >
             About
           </button>
           
+          <button
+            onClick={() => { setCurrentView('home'); setSearchQuery(''); }}
+            className="bg-cyan-500 hover:bg-cyan-400 text-navy-950 px-3.5 py-1.5 rounded-lg shadow-sm transition font-extrabold text-[11px] leading-tight"
+          >
+            Ask FloatChat
+          </button>
+
           <span className="w-px h-4 bg-navy-200 dark:bg-navy-800"></span>
 
           <button 
@@ -241,8 +248,8 @@ export default function App() {
                 <h2 className="text-4xl md:text-5xl font-black tracking-tight text-navy-900 dark:text-slate-100">
                   Ask the Ocean. Get the Data.
                 </h2>
-                <p className="text-sm md:text-base text-navy-550 dark:text-navy-400 max-w-xl mx-auto leading-relaxed">
-                  Explore complex ARGO ocean data using natural language.
+                <p className="text-sm md:text-base text-navy-550 dark:text-navy-400 max-w-2xl mx-auto leading-relaxed">
+                  Explore ARGO ocean data using natural language — no complex filters or data formats required.
                 </p>
               </div>
 
@@ -345,9 +352,7 @@ export default function App() {
               {/* A. AI ANSWER */}
               <div className="bg-gradient-to-br from-navy-900 to-purple-950 border border-purple-500/20 text-white rounded-2xl p-5 md:p-6 shadow-sm space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] bg-cyan-500/15 text-cyan-400 font-extrabold px-2 py-0.5 rounded tracking-wider uppercase border border-cyan-400/20">
-                    AI-generated insight • Based on ARGO observations
-                  </span>
+                  <h3 className="font-black text-sm uppercase tracking-wider text-cyan-300">AI Insight</h3>
                   <button 
                     onClick={() => setExplainSimply(!explainSimply)}
                     className="text-[10px] font-bold text-slate-300 hover:text-white underline"
@@ -356,13 +361,17 @@ export default function App() {
                   </button>
                 </div>
                 
-                <h3 className="font-extrabold text-sm uppercase tracking-wider text-cyan-300">Here's what I found</h3>
                 <p className="text-xs md:text-sm text-slate-100 leading-relaxed font-semibold">
                   {explainSimply 
                     ? "In simple terms, the ocean is warmer near the surface and becomes cooler as depth increases. Salinity concentrations are stable in upper channels but drop slightly in intermediate layers."
                     : conversations[conversations.length - 1]?.text || "No query loaded."
                   }
                 </p>
+
+                <div className="pt-2 border-t border-white/10 flex justify-between items-center text-[9px] text-slate-400">
+                  <span>AI-generated insight • Based on ARGO observations</span>
+                  <span className="font-bold text-cyan-400 uppercase tracking-widest">ARGO Observations</span>
+                </div>
               </div>
 
               {/* B. MAIN VISUALIZATION */}
@@ -370,9 +379,9 @@ export default function App() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                   <div>
                     <h4 className="font-extrabold text-xs uppercase tracking-wider text-navy-850 dark:text-slate-100">
-                      {activeTab === 'Spatial Map' ? "Geospatial Float Positions" : activeParameter === 'temperature' ? "Temperature Profile Curve" : "Salinity Profile Curve"}
+                      {activeTab === 'Spatial Map' ? "Geospatial Float Locations — Indian Ocean" : activeParameter === 'temperature' ? "Temperature Profile — Indian Ocean" : "Salinity Profile — Indian Ocean"}
                     </h4>
-                    <p className="text-[10px] text-navy-450">Demo visualization • Sample ARGO observations</p>
+                    <p className="text-[10px] text-navy-455">ARGO Float Data • Based on available ARGO profiles</p>
                   </div>
 
                   {/* Toggle between parameters */}
@@ -514,7 +523,7 @@ export default function App() {
               {/* D. FOLLOW-UP QUESTIONS & CHAT */}
               <div className="bg-white dark:bg-navy-900 border border-navy-150 dark:border-navy-800 p-5 rounded-2xl shadow-sm space-y-4">
                 <h4 className="font-extrabold text-xs uppercase tracking-wider text-navy-850 dark:text-slate-100">
-                  Ask a follow-up question
+                  Ask a follow-up
                 </h4>
 
                 {/* Suggested follow-up prompts */}
