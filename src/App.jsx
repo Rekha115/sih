@@ -347,10 +347,27 @@ export default function App() {
 
           {/* VIEW: MAIN RESULTS PAGE */}
           {currentView === 'explore' && (
-            <div className="space-y-6 animate-fadeIn">
+            <div className="space-y-4 max-w-5xl mx-auto animate-fadeIn">
 
-              {/* A. AI ANSWER */}
-              <div className="bg-gradient-to-br from-navy-900 to-purple-950 border border-purple-500/20 text-white rounded-2xl p-5 md:p-6 shadow-sm space-y-3">
+              {/* USER QUERY BUBBLE */}
+              <div className="flex justify-end animate-fadeIn">
+                <div className="bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 p-3 rounded-2xl rounded-tr-sm text-xs font-semibold max-w-lg shadow-sm">
+                  <span className="text-[9px] text-navy-400 block font-bold uppercase tracking-wider mb-1">You Asked</span>
+                  “{searchQuery || "Show temperature profiles in the Indian Ocean"}”
+                </div>
+              </div>
+
+              {/* AI PROCESSING TRAIL */}
+              <div className="flex items-center justify-center gap-4 text-[10px] text-navy-450 dark:text-navy-500 font-bold uppercase tracking-wider py-1 select-none animate-fadeIn">
+                <span className="flex items-center gap-1.5 text-emerald-500"><CheckCircle2 size={12} /> Query understood</span>
+                <span className="text-navy-200 dark:text-navy-800">➔</span>
+                <span className="flex items-center gap-1.5 text-emerald-500"><CheckCircle2 size={12} /> ARGO data retrieved</span>
+                <span className="text-navy-200 dark:text-navy-800">➔</span>
+                <span className="flex items-center gap-1.5 text-emerald-500"><CheckCircle2 size={12} /> Visualization generated</span>
+              </div>
+
+              {/* A. AI ANSWER (Reduced height) */}
+              <div className="bg-gradient-to-br from-navy-900 to-purple-950 border border-purple-500/20 text-white rounded-2xl p-4 md:p-4.5 shadow-sm space-y-2">
                 <div className="flex justify-between items-center">
                   <h3 className="font-black text-sm uppercase tracking-wider text-cyan-300">AI Insight</h3>
                   <button 
@@ -381,7 +398,11 @@ export default function App() {
                     <h4 className="font-extrabold text-xs uppercase tracking-wider text-navy-850 dark:text-slate-100">
                       {activeTab === 'Spatial Map' ? "Geospatial Float Locations — Indian Ocean" : activeParameter === 'temperature' ? "Temperature Profile — Indian Ocean" : "Salinity Profile — Indian Ocean"}
                     </h4>
-                    <p className="text-[10px] text-navy-455">ARGO Float Data • Based on available ARGO profiles</p>
+                    <p className="text-[10px] text-navy-455 font-medium flex items-center gap-1.5">
+                      <span>Based on ARGO observations</span>
+                      <span className="w-1 h-1 bg-navy-300 rounded-full"></span>
+                      <span>ARGO Float Data</span>
+                    </p>
                   </div>
 
                   {/* Toggle between parameters */}
@@ -417,7 +438,7 @@ export default function App() {
                 </div>
 
                 {/* Plot Display Area */}
-                <div className="h-72 bg-navy-50 dark:bg-navy-950/70 border border-navy-100 dark:border-navy-800/80 rounded-xl relative flex items-center justify-center p-4">
+                <div className="h-96 bg-navy-50 dark:bg-navy-950/70 border border-navy-100 dark:border-navy-800/80 rounded-xl relative flex items-center justify-center p-4">
                   {activeTab === 'Spatial Map' ? (
                     <svg width="100%" height="100%" viewBox="20 40 280 160">
                       <line x1="0" y1="80" x2="400" y2="80" stroke="currentColor" className="text-navy-200 dark:text-navy-800" strokeWidth="0.3" strokeDasharray="3,3" />
@@ -437,17 +458,15 @@ export default function App() {
                       ))}
                     </svg>
                   ) : activeTab === 'Depth Profile' ? (
-                    <svg width="100%" height="100%" viewBox="0 0 250 140">
+                    <svg width="100%" height="100%" viewBox="-15 5 270 145">
                       <line x1="30" y1="20" x2="230" y2="20" stroke="currentColor" className="text-navy-250 dark:text-navy-800" strokeWidth="0.5" strokeDasharray="3,3" />
                       <line x1="30" y1="60" x2="230" y2="60" stroke="currentColor" className="text-navy-250 dark:text-navy-800" strokeWidth="0.5" strokeDasharray="3,3" />
                       <line x1="30" y1="100" x2="230" y2="100" stroke="currentColor" className="text-navy-250 dark:text-navy-800" strokeWidth="0.5" strokeDasharray="3,3" />
                       
-                      {/* Highlight anomaly */}
                       {highlightAnomalyOnGraph && (
                         <rect x="150" y="60" width="80" height="40" fill="rgba(249, 115, 22, 0.15)" />
                       )}
 
-                      {/* Curves */}
                       {activeParameter === 'temperature' ? (
                         <>
                           <path d="M 30 30 Q 110 50, 150 90 T 230 115" fill="none" stroke="#0ea5e9" strokeWidth="1.5" strokeDasharray="2,2" />
@@ -459,14 +478,13 @@ export default function App() {
                           <path d="M 30 30 Q 110 38, 150 58 T 230 68" fill="none" stroke="#f97316" strokeWidth="2" />
                         </>
                       )}
-
-                      {/* Labels */}
-                      <text x="30" y="132" textAnchor="middle" fill="currentColor" className="text-navy-450" fontSize="6">0m</text>
-                      <text x="110" y="132" textAnchor="middle" fill="currentColor" className="text-navy-450" fontSize="6">200m</text>
-                      <text x="230" y="132" textAnchor="middle" fill="currentColor" className="text-navy-450" fontSize="6">500m</text>
+                      <text x="30" y="132" textAnchor="middle" fill="currentColor" className="text-navy-500 dark:text-navy-400 font-bold" fontSize="7">0m</text>
+                      <text x="110" y="132" textAnchor="middle" fill="currentColor" className="text-navy-500 dark:text-navy-400 font-bold" fontSize="7">200m</text>
+                      <text x="230" y="132" textAnchor="middle" fill="currentColor" className="text-navy-500 dark:text-navy-400 font-bold" fontSize="7">500m</text>
+                      <text x="130" y="145" textAnchor="middle" fill="currentColor" className="text-navy-500 dark:text-navy-450 font-bold" fontSize="7.5">Depth (m)</text>
+                      <text x="5" y="70" textAnchor="middle" fill="currentColor" className="text-navy-500 dark:text-navy-450 font-bold" fontSize="7.5" transform="rotate(-90 5 70)">{activeParameter === 'temperature' ? "Temperature (°C)" : "Salinity (PSU)"}</text>
                     </svg>
                   ) : (
-                    // Time Series Forecast
                     <svg width="100%" height="100%" viewBox="0 0 250 140">
                       <line x1="30" y1="20" x2="230" y2="20" stroke="currentColor" className="text-navy-200 dark:text-navy-800" strokeWidth="0.5" strokeDasharray="2,2" />
                       <line x1="30" y1="80" x2="230" y2="80" stroke="currentColor" className="text-navy-200 dark:text-navy-800" strokeWidth="0.5" strokeDasharray="2,2" />
@@ -476,12 +494,11 @@ export default function App() {
                     </svg>
                   )}
 
-                  {/* Tooltip Popup */}
                   {showFloatPopup && selectedFloat && (
                     <div className="absolute bottom-2 left-2 bg-white dark:bg-navy-900 border border-navy-150 p-3 rounded-lg shadow text-[10px] flex justify-between gap-4 animate-scaleUp">
                       <div>
                         <p className="font-bold text-navy-800 dark:text-slate-100">Float: {selectedFloat.id}</p>
-                        <p className="text-navy-400">{selectedFloat.lat}°N, {selectedFloat.lng}°E</p>
+                        <p className="text-navy-450">{selectedFloat.lat}°N, {selectedFloat.lng}°E</p>
                         <p className="text-[8px] bg-orange-500/10 text-orange-500 px-1 rounded uppercase tracking-wider font-bold mt-1">SIMULATED DATA</p>
                       </div>
                       <div className="text-right">
@@ -493,7 +510,6 @@ export default function App() {
                   )}
                 </div>
 
-                {/* Legends */}
                 <div className="flex justify-between items-center text-[10px] text-navy-400">
                   <span className="flex items-center gap-1">
                     <span className="w-3 h-0.5 bg-cyan-500 border-dashed border-t"></span> Climatological baseline
@@ -502,33 +518,32 @@ export default function App() {
                     <span className="w-3 h-0.5 bg-orange-500"></span> Active observations
                   </span>
                 </div>
-              </div>
 
-              {/* C. KEY INSIGHTS (3-4 COMPACT CARDS) */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { label: "Temperature", val: activeParameter === 'temperature' ? "28.4°C" : "14.2°C", desc: "Mean surface layer" },
-                  { label: "Salinity", val: activeParameter === 'temperature' ? "35.2 PSU" : "36.2 PSU", desc: "Upper halocline index" },
-                  { label: "Depth", val: activeParameter === 'temperature' ? "500m" : "1000m", desc: "Selected target columns" },
-                  { label: "Active Floats", val: activeFloats.length.toString(), desc: "Quad observations count" }
-                ].map((card, idx) => (
-                  <div key={idx} className="bg-white dark:bg-navy-900 border border-navy-150 dark:border-navy-800/80 p-4 rounded-xl shadow-sm text-center">
-                    <p className="text-[10px] text-navy-400 font-bold uppercase tracking-wider">{card.label}</p>
-                    <h4 className="text-lg font-black text-navy-850 dark:text-slate-100 mt-1">{card.val}</h4>
-                    <p className="text-[9px] text-navy-450">{card.desc}</p>
-                  </div>
-                ))}
+                {/* C. KEY INSIGHTS (3-4 COMPACT CARDS) */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { label: "Temperature", val: activeParameter === 'temperature' ? "28.4°C" : "14.2°C" },
+                    { label: "Salinity", val: activeParameter === 'temperature' ? "35.2 PSU" : "36.2 PSU" },
+                    { label: "Depth", val: activeParameter === 'temperature' ? "500m" : "1000m" },
+                    { label: "Active Floats", val: "7" }
+                  ].map((card, idx) => (
+                    <div key={idx} className="bg-white dark:bg-navy-900 border border-navy-150 dark:border-navy-800/80 p-2.5 rounded-lg shadow-sm text-center">
+                      <p className="text-[9px] text-navy-400 font-bold uppercase tracking-wider">{card.label}</p>
+                      <h4 className="text-sm font-black text-navy-850 dark:text-slate-100 mt-0.5">{card.val}</h4>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* D. FOLLOW-UP QUESTIONS & CHAT */}
               <div className="bg-white dark:bg-navy-900 border border-navy-150 dark:border-navy-800 p-5 rounded-2xl shadow-sm space-y-4">
                 <h4 className="font-extrabold text-xs uppercase tracking-wider text-navy-850 dark:text-slate-100">
-                  Ask a follow-up
+                  CONTINUE EXPLORING
                 </h4>
 
                 {/* Suggested follow-up prompts */}
                 <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="text-[10px] font-bold text-navy-450 uppercase mr-1">Try asking next:</span>
+                  <span className="text-[10px] font-bold text-navy-455 uppercase mr-1">Try asking next:</span>
                   {[
                     "Show this at 1000m depth",
                     "Compare it with the Pacific Ocean",
@@ -537,7 +552,7 @@ export default function App() {
                     <button
                       key={idx}
                       onClick={() => triggerFollowup(followPrompt)}
-                      className="bg-navy-50 hover:bg-navy-100 dark:bg-navy-950 dark:hover:bg-navy-800 border border-navy-100 dark:border-navy-850 text-navy-600 dark:text-cyan-500 px-3 py-1.5 rounded-lg font-semibold transition"
+                      className="bg-cyan-50 hover:bg-cyan-100 dark:bg-cyan-950/40 dark:hover:bg-cyan-900/60 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded-lg font-semibold transition"
                     >
                       {followPrompt}
                     </button>
@@ -550,7 +565,7 @@ export default function App() {
                     type="text"
                     value={followupInput}
                     onChange={(e) => setFollowupInput(e.target.value)}
-                    placeholder="Compare this with the Bay of Bengal..."
+                    placeholder="Ask FloatChat another question…"
                     className="w-full bg-navy-50 dark:bg-navy-950 border border-navy-100 dark:border-navy-800 text-xs rounded-xl pl-4 pr-24 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500 text-navy-900 dark:text-white"
                   />
                   <button
